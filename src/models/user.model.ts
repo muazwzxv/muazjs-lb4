@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 import {v4 as uuid} from 'uuid';
-import {PermissionKey} from '../auth/authorization';
+import {PermissionKey} from '../components/authorization';
 
 @model()
 export class User extends Entity {
