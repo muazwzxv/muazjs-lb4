@@ -1,23 +1,49 @@
-
 import {PermissionKey} from './permission-key';
 
 export interface RequiredPermisisons {
-  required: PermissionKey[]
+  required: PermissionKey[];
 }
 
 export interface UserPermissionfn {
   (
     userPermission: PermissionKey[],
-    requiredPermissions: RequiredPermisisons
-  ): boolean
+    requiredPermissions: RequiredPermisisons,
+  ): boolean;
 }
 
 export interface MyUserProfile {
-  uuid: string
-  email: string
-  name: string
-  permissions: PermissionKey[]
+  uuid: string;
+  email: string;
+  name: string;
+  permissions: PermissionKey[];
 }
 
+export const UserProfileSchema = {
+  type: 'object',
+  required: ['email', 'password', 'name'],
+  properties: {
+    email: {
+      type: 'string',
+      format: 'email',
+    },
+    password: {
+      type: 'string',
+      minLength: 8,
+    },
+    name: {type: 'string'},
+  },
+};
 
+export const UserRequestBody = {
+  description: 'The input to create a user',
+  required: true,
+  content: {
+    'application/json': {schema: UserProfileSchema},
+  },
+};
 
+export interface Credentials {
+  email: string;
+  password: string;
+  permissions: PermissionKey[];
+}
