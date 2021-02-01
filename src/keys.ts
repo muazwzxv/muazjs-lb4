@@ -1,6 +1,6 @@
 import {TokenService} from '@loopback/authentication';
 import {BindingKey} from '@loopback/context';
-import {UserPermissionfn} from './authorization';
+import {UserPermissionfn} from './auth/authorization';
 
 /**
  * Binding keys need for the project

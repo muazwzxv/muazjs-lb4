@@ -4,7 +4,7 @@ import {
   PermissionKey,
   RequiredPermisisons,
   UserPermissionfn,
-} from '../authorization';
+} from '../auth/authorization';
 
 export class UserPermissionsProvider implements Provider<UserPermissionfn> {
   constructor() {}

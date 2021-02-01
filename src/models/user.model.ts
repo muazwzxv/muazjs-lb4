@@ -1,13 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
 import {v4 as uuid} from 'uuid';
-import {PermissionKey} from '../authorization';
+import {PermissionKey} from '../auth/authorization';
 
 @model()
 export class User extends Entity {
   @property({
     type: 'string',
     id: true,
-    default: () => uuid()
+    default: () => uuid(),
   })
   uuid?: string;
 
@@ -30,8 +30,7 @@ export class User extends Entity {
   password: string;
 
   @property.array(String)
-  permissions: PermissionKey[]
-
+  permissions: PermissionKey[];
 
   constructor(data?: Partial<User>) {
     super(data);
