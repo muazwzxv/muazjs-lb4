@@ -2,12 +2,13 @@ import {
   AuthenticationBindings,
   AuthenticationMetadata,
   AuthenticationStrategy,
-  TokenService
+  TokenService,
 } from '@loopback/authentication';
 import {inject} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
+import {UserProfile} from '@loopback/security';
 import {MyAuthBindings} from '../../keys';
-import {MyUserProfile, UserPermissionfn} from '../authorization';
+import {UserPermissionfn} from '../authorization';
 
 export class JWTStrategy implements AuthenticationStrategy {
   name = 'jwt';
@@ -23,14 +24,14 @@ export class JWTStrategy implements AuthenticationStrategy {
     protected tokenService: TokenService,
   ) {}
 
-  async authenticate(req: Request): Promise<MyUserProfile | undefined> {
+  async authenticate(req: Request): Promise<UserProfile | undefined> {
     const token: string = this.extractCredentials(req);
     try {
-      const user: MyUserProfile = await this.tokenService.verifyToken(token) as MyUserProfile
+      const user: UserProfile = await this.tokenService.verifyToken(token);
       return user;
-    } catch(err) {
-      Object.assign(err, {code: 'INVALID_ACCESS_TOKEN', statusCode: 401})
-      throw err
+    } catch (err) {
+      Object.assign(err, {code: 'INVALID_ACCESS_TOKEN', statusCode: 401});
+      throw err;
     }
   }
 
