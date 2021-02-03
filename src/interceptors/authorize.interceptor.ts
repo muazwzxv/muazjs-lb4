@@ -1,12 +1,25 @@
 import {
+  AuthenticationBindings,
+  AuthenticationMetadata,
+} from '@loopback/authentication';
+import {
+  Getter,
   /* inject, */
   globalInterceptor,
+  inject,
   Interceptor,
   InvocationContext,
   InvocationResult,
   Provider,
   ValueOrPromise,
 } from '@loopback/core';
+import {HttpErrors} from '@loopback/rest';
+import {
+  MyUserProfile,
+  RequiredPermisisons,
+  UserPermissionfn,
+} from '../components/authorization';
+import {MyAuthBindings} from '../keys';
 
 /**
  * This class will be bound to the application as an `Interceptor` during
@@ -14,9 +27,16 @@ import {
  */
 @globalInterceptor('', {tags: {name: 'authorize'}})
 export class AuthorizeInterceptor implements Provider<Interceptor> {
-  /*
-  constructor() {}
-  */
+  constructor(
+    @inject(AuthenticationBindings.METADATA)
+    public metadata: AuthenticationMetadata,
+
+    @inject(MyAuthBindings.USER_PERMISSIONS)
+    protected checkPermissions: UserPermissionfn,
+
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    public getCurrentUser: Getter<MyUserProfile>,
+  ) {}
 
   /**
    * This method is used by LoopBack context to produce an interceptor function
@@ -37,14 +57,13 @@ export class AuthorizeInterceptor implements Provider<Interceptor> {
     invocationCtx: InvocationContext,
     next: () => ValueOrPromise<InvocationResult>,
   ) {
-    try {
-      // Add pre-invocation logic here
-      const result = await next();
-      // Add post-invocation logic here
-      return result;
-    } catch (err) {
-      // Add error handling logic here
-      throw err;
+    if (!this.metadata) return next();
+
+    const requiredPermisions = this.metadata.options as RequiredPermisisons;
+    const user = await this.getCurrentUser();
+    if (!this.checkPermissions(user.permissions, requiredPermisions)) {
+      throw new HttpErrors.Forbidden('INVALID_ACCESS_PERMISSION');
     }
+    return next();
   }
 }
