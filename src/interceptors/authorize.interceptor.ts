@@ -4,7 +4,6 @@ import {
 } from '@loopback/authentication';
 import {
   Getter,
-  /* inject, */
   globalInterceptor,
   inject,
   Interceptor,
@@ -60,7 +59,8 @@ export class AuthorizeInterceptor implements Provider<Interceptor> {
     if (!this.metadata) return next();
 
     const requiredPermisions = this.metadata.options as RequiredPermisisons;
-    const user = await this.getCurrentUser();
+    const user = (await this.getCurrentUser()) as MyUserProfile;
+
     if (!this.checkPermissions(user.permissions, requiredPermisions)) {
       throw new HttpErrors.Forbidden('INVALID_ACCESS_PERMISSION');
     }
