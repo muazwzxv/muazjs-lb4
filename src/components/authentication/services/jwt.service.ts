@@ -12,7 +12,6 @@ import {UserRepository} from '../../../repositories';
 import {Credentials} from '../../authorization/types';
 
 // Convert callbacks to Promise1
-const signAsync = promisify(jwt.sign);
 const verifyAsync = promisify(jwt.verify);
 
 export class JWTService implements TokenService {
