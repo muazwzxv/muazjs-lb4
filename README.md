@@ -2,8 +2,8 @@
 
 ### TODO
 
-- [] Implements password hasher
-- [] Implements attribute based authorization (ABAC)
+- [ ] Implements password hasher
+- [ ] Implements attribute based authorization (ABAC)
 
 ## Install dependencies
 
