@@ -60,7 +60,6 @@ export class AuthorizeInterceptor implements Provider<Interceptor> {
 
     const requiredPermisions = this.metadata.options as RequiredPermisisons;
     const user = (await this.getCurrentUser()) as MyUserProfile;
-
     if (!this.checkPermissions(user.permissions, requiredPermisions)) {
       throw new HttpErrors.Forbidden('INVALID_ACCESS_PERMISSION');
     }
