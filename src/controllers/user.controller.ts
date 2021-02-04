@@ -1,4 +1,4 @@
-import {authenticate, AuthenticationBindings} from '@loopback/authentication';
+import {AuthenticationBindings} from '@loopback/authentication';
 import {Getter, inject} from '@loopback/core';
 import {Filter, FilterExcludingWhere, repository} from '@loopback/repository';
 import {
@@ -123,7 +123,6 @@ export class UserController {
       },
     },
   })
-  @authenticate('jwt', {required: [PermissionKey.ViewOwnUser]})
   async getCurrentUser(): Promise<UserProfile> {
     return this.getCurrentUser() as Promise<UserProfile>;
   }

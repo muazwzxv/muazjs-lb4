@@ -9,7 +9,7 @@ const config = {
   port: process.env.DBPORT,
   user: process.env.DBUSER,
   password: process.env.DBPASSWORD,
-  database: 'lb4'
+  database: 'lb4',
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -17,7 +17,8 @@ const config = {
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class MysqlDataSource extends juggler.DataSource
+export class MysqlDataSource
+  extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'mysql';
   static readonly defaultConfig = config;
@@ -26,6 +27,7 @@ export class MysqlDataSource extends juggler.DataSource
     @inject('datasources.config.mysql', {optional: true})
     dsConfig: object = config,
   ) {
+    console.log(dsConfig, 'the database config');
     super(dsConfig);
   }
 }

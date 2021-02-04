@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import {promisify} from 'util';
 import {TokenServiceConstant} from '../../../keys';
 import {UserRepository} from '../../../repositories';
-import {Credentials} from '../types';
+import {Credentials} from '../../authorization/types';
 
 // Convert callbacks to Promise1
 const signAsync = promisify(jwt.sign);

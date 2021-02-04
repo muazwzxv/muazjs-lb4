@@ -15,6 +15,7 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import {JWTStrategy} from './components/authentication';
 import {JWTService} from './components/authorization';
+import {AuthorizeInterceptor} from './interceptors';
 import {MyAuthBindings} from './keys';
 import {UserPermissionsProvider} from './providers';
 import {MySequence} from './sequence';
@@ -29,6 +30,7 @@ export class Application extends BootMixin(
 
     // register authentication component
     this.component(AuthenticationComponent);
+    this.interceptor(AuthorizeInterceptor, {global: true});
 
     // Bind jwt & permissions component related elements
     registerAuthenticationStrategy(this, JWTStrategy);

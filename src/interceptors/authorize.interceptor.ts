@@ -56,6 +56,7 @@ export class AuthorizeInterceptor implements Provider<Interceptor> {
     invocationCtx: InvocationContext,
     next: () => ValueOrPromise<InvocationResult>,
   ) {
+    console.log('kontolan ibrahim');
     if (!this.metadata) return next();
 
     const requiredPermisions = this.metadata.options as RequiredPermisisons;
