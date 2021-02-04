@@ -28,7 +28,6 @@ export class MysqlDataSource
     @inject('datasources.config.mysql', {optional: true})
     dsConfig: object = config,
   ) {
-    console.log(dsConfig, 'the database config');
     super(dsConfig);
   }
 }
