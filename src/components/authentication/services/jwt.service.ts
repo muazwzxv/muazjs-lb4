@@ -31,10 +31,7 @@ export class JWTService implements TokenService {
     if (!token)
       throw new HttpErrors.Unauthorized('Error verifying token: token is null');
 
-    const decrypted = await verifyAsync(
-      token,
-      TokenServiceConstant.TOKEN_SECRET_VALUE,
-    );
+    const decrypted = await verifyAsync(token, this.jwtSecret);
 
     const user = _.pick(decrypted, [
       'id',

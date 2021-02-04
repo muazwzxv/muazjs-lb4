@@ -11,12 +11,14 @@ import {
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
-import * as dotenv from 'dotenv';
 import path from 'path';
 import {JWTStrategy} from './components/authentication';
 import {JWTService} from './components/authorization';
-import {AuthorizeInterceptor} from './interceptors';
-import {MyAuthBindings} from './keys';
+import {
+  MyAuthBindings,
+  TokenServiceBindings,
+  TokenServiceConstant,
+} from './keys';
 import {UserPermissionsProvider} from './providers';
 import {MySequence} from './sequence';
 
@@ -30,7 +32,6 @@ export class Application extends BootMixin(
 
     // register authentication component
     this.component(AuthenticationComponent);
-    this.interceptor(AuthorizeInterceptor, {global: true});
 
     // Bind jwt & permissions component related elements
     registerAuthenticationStrategy(this, JWTStrategy);
@@ -38,8 +39,13 @@ export class Application extends BootMixin(
     this.bind(MyAuthBindings.USER_PERMISSIONS).toProvider(
       UserPermissionsProvider,
     );
+    this.bind(TokenServiceBindings.TOKEN_SECRET).to(
+      TokenServiceConstant.TOKEN_SECRET_VALUE,
+    );
+    this.bind(TokenServiceBindings.TOKEN_EXPIRE).to(
+      TokenServiceConstant.TOKEN_EXPIRE_IN_VALUE,
+    );
 
-    dotenv.config({path: '.env'});
     // Set up the custom sequence
     this.sequence(MySequence);
 
