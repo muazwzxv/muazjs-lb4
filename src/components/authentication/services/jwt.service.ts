@@ -44,9 +44,17 @@ export class JWTService implements TokenService {
   }
 
   async generateToken(user: UserProfile): Promise<string> {
-    const token = await signAsync(user, this.jwtSecret);
-
-    return token as string;
+    return new Promise<string>((resolve, rejects) => {
+      jwt.sign(
+        user,
+        this.jwtSecret,
+        {expiresIn: this.tokenExpire},
+        (err, token) => {
+          if (err) rejects(err);
+          resolve(token as string);
+        },
+      );
+    });
   }
 
   async getToken(credential: Credentials): Promise<string> {
