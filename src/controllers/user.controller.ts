@@ -62,7 +62,6 @@ export class UserController {
       PermissionKey.UpdateOwnUser,
       PermissionKey.DeleteOwnUser,
     ];
-    console.log('reached here ma boi');
 
     if (await this.userRepository.exists(user.email))
       throw new HttpErrors.BadRequest('Email already exists');

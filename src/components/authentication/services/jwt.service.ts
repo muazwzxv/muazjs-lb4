@@ -7,7 +7,7 @@ import {toJSON} from '@loopback/testlab';
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 import {promisify} from 'util';
-import {TokenServiceConstant} from '../../../keys';
+import {TokenServiceBindings} from '../../../keys';
 import {UserRepository} from '../../../repositories';
 import {Credentials} from '../../authorization/types';
 
@@ -20,11 +20,11 @@ export class JWTService implements TokenService {
     @repository(UserRepository)
     public userRepository: UserRepository,
 
-    @inject(TokenServiceConstant.TOKEN_SECRET_VALUE)
+    @inject(TokenServiceBindings.TOKEN_SECRET)
     private jwtSecret: string,
 
-    @inject(TokenServiceConstant.TOKEN_EXPIRE_IN_VALUE)
-    private tokenExpire: Number,
+    @inject(TokenServiceBindings.TOKEN_EXPIRE)
+    private tokenExpire: string,
   ) {}
 
   async verifyToken(token: string): Promise<UserProfile> {
