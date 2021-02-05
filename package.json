@@ -50,6 +50,7 @@
   ],
   "dependencies": {
     "@loopback/authentication": "^7.0.6",
+    "@loopback/authorization": "^0.7.6",
     "@loopback/boot": "^3.1.2",
     "@loopback/core": "^2.13.1",
     "@loopback/repository": "^3.3.0",

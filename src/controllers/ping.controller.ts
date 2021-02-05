@@ -1,6 +1,6 @@
-import {Request, RestBindings, get, ResponseObject} from '@loopback/rest';
+import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
-
+import {get, Request, ResponseObject, RestBindings} from '@loopback/rest';
 /**
  * OpenAPI response for ping()
  */
@@ -40,6 +40,7 @@ export class PingController {
       '200': PING_RESPONSE,
     },
   })
+  @authorize({})
   ping(): object {
     // Reply with a greeting, the current time, the url, and request headers
     return {

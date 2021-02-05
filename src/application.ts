@@ -2,6 +2,7 @@ import {
   AuthenticationComponent,
   registerAuthenticationStrategy,
 } from '@loopback/authentication';
+import {AuthorizationTags} from '@loopback/authorization';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -14,6 +15,7 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {JWTStrategy} from './components/authentication';
 import {JWTService} from './components/authorization';
+import {MyAuthorizer} from './components/authorization/myAuthorizer.authorizer';
 import {
   MyAuthBindings,
   TokenServiceBindings,
@@ -30,8 +32,11 @@ export class Application extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
-    // register authentication component
+    // register authentication & authorization component
     this.component(AuthenticationComponent);
+    this.bind('authorizationProvider.my-authorization-provider')
+      .toProvider(MyAuthorizer)
+      .tag(AuthorizationTags.AUTHORIZER);
 
     // Bind jwt & permissions component related elements
     registerAuthenticationStrategy(this, JWTStrategy);
