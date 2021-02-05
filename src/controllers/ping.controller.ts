@@ -1,6 +1,8 @@
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
 import {get, Request, ResponseObject, RestBindings} from '@loopback/rest';
+import {PermissionKey} from '../components/authorization';
+import {attributeAccessAuthorizer} from '../components/authorization/myAuthorizer.authorizer';
 /**
  * OpenAPI response for ping()
  */
@@ -40,7 +42,10 @@ export class PingController {
       '200': PING_RESPONSE,
     },
   })
-  @authorize({})
+  @authorize({
+    voters: [attributeAccessAuthorizer],
+    scopes: [PermissionKey.ViewOwnUser],
+  })
   ping(): object {
     // Reply with a greeting, the current time, the url, and request headers
     return {
