@@ -14,7 +14,6 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {JWTStrategy} from './components/authentication';
-import {BcryptHasher} from './components/authentication/services/hash.password.bcrypt';
 import {JWTService} from './components/authorization';
 import {
   MyAuthBindings,
@@ -24,6 +23,7 @@ import {
 } from './keys';
 import {UserPermissionsProvider} from './providers';
 import {MySequence} from './sequence';
+import {BcryptHasher} from './services/hash.password.bcrypt';
 
 export {ApplicationConfig};
 

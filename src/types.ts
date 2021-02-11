@@ -1,4 +1,4 @@
-import {PermissionKey} from './permission-key';
+import {PermissionKey} from './components/authorization/permission-key';
 
 export interface RequiredPermisisons {
   required: PermissionKey[];

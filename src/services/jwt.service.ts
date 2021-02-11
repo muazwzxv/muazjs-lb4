@@ -7,9 +7,9 @@ import {toJSON} from '@loopback/testlab';
 import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
 import {promisify} from 'util';
-import {TokenServiceBindings} from '../../../keys';
-import {UserRepository} from '../../../repositories';
-import {Credentials} from '../../authorization/types';
+import {Credentials} from '../components/authorization/types';
+import {TokenServiceBindings} from '../keys';
+import {UserRepository} from '../repositories';
 
 // Convert callbacks to Promise1
 const verifyAsync = promisify(jwt.verify);
