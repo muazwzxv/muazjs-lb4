@@ -1,5 +1,6 @@
 import {TokenService} from '@loopback/authentication';
 import {BindingKey} from '@loopback/context';
+import {PasswordHasher} from './components/authentication/services/hash.password.bcrypt';
 import {UserPermissionfn} from './components/authorization';
 
 /**
@@ -27,4 +28,11 @@ export namespace TokenServiceBindings {
   export const TOKEN_EXPIRE = BindingKey.create<string>(
     'authentication.jwt.expire.in.second',
   );
+}
+
+export namespace PasswordHasherBindings {
+  export const PASSWORD_HASHER = BindingKey.create<PasswordHasher>(
+    'service.hasher',
+  );
+  export const ROUNDS = BindingKey.create<number>('services.hasher.round');
 }

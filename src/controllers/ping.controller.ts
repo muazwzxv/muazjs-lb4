@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {authorize} from '@loopback/authorization';
 import {inject} from '@loopback/core';
 import {get, Request, ResponseObject, RestBindings} from '@loopback/rest';
@@ -42,6 +43,7 @@ export class PingController {
       '200': PING_RESPONSE,
     },
   })
+  @authenticate('jwt')
   @authorize({
     voters: [attributeAccessAuthorizer],
     scopes: [PermissionKey.ViewOwnUser],

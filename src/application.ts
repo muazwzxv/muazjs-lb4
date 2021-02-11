@@ -2,7 +2,7 @@ import {
   AuthenticationComponent,
   registerAuthenticationStrategy,
 } from '@loopback/authentication';
-import {AuthorizationTags} from '@loopback/authorization';
+import {AuthorizationComponent} from '@loopback/authorization';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -14,10 +14,11 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {JWTStrategy} from './components/authentication';
+import {BcryptHasher} from './components/authentication/services/hash.password.bcrypt';
 import {JWTService} from './components/authorization';
-import {MyAuthorizer} from './components/authorization/myAuthorizer.authorizer';
 import {
   MyAuthBindings,
+  PasswordHasherBindings,
   TokenServiceBindings,
   TokenServiceConstant,
 } from './keys';
@@ -34,9 +35,7 @@ export class Application extends BootMixin(
 
     // register authentication & authorization component
     this.component(AuthenticationComponent);
-    this.bind('authorizationProvider.my-authorization-provider')
-      .toProvider(MyAuthorizer)
-      .tag(AuthorizationTags.AUTHORIZER);
+    this.component(AuthorizationComponent);
 
     // Bind jwt & permissions component related elements
     registerAuthenticationStrategy(this, JWTStrategy);
@@ -50,6 +49,8 @@ export class Application extends BootMixin(
     this.bind(TokenServiceBindings.TOKEN_EXPIRE).to(
       TokenServiceConstant.TOKEN_EXPIRE_IN_VALUE,
     );
+    this.bind(PasswordHasherBindings.ROUNDS).to(10);
+    this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher);
 
     // Set up the custom sequence
     this.sequence(MySequence);
