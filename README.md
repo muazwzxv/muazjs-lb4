@@ -2,7 +2,8 @@
 
 ### TODO
 
-- [ ] Implements password hasher
+- [x] Implements password hasher
+- [ ] Finish user-service
 - [ ] Implements attribute based authorization (ABAC)
 
 ## Install dependencies
